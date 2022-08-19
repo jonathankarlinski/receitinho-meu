@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const history = useHistory();
 
   const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/i;
   const MIN_PASSWORD = 6;
@@ -12,6 +15,7 @@ export default function Login() {
     localStorage.setItem('user', JSON.stringify({ email }));
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
+    history.push('/foods');
   };
 
   return (
