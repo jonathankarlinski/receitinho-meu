@@ -7,8 +7,15 @@ export default function Login() {
   const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/i;
   const MIN_PASSWORD = 6;
 
+  const handleClick = (event) => {
+    event.preventDefault();
+    localStorage.setItem('user', JSON.stringify({ email }));
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+  };
+
   return (
-    <form>
+    <form onSubmit={ (e) => handleClick(e) }>
       <h1>Login</h1>
       <label htmlFor="text">
         Email:
@@ -26,12 +33,12 @@ export default function Login() {
           type="password"
           id="senha"
           value={ password }
-          onChange={ (event) => setPassword(event.target.value) }
+          onChange={ ({ target }) => setPassword(target.value) }
           data-testid="password-input"
         />
       </label>
       <button
-        type="button"
+        type="submit"
         data-testid="login-submit-btn"
         disabled={ (!regex.test(email) || password.length <= MIN_PASSWORD) }
       >
