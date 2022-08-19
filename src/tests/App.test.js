@@ -25,6 +25,7 @@ describe('Testa a tela de login', () => {
   
   test('Testa o comportamento de habilitar e desabilitar o botão', () => {
     renderWithRouter(<App />);
+
     const email = screen.getByLabelText(/email/i)
     const password = screen.getByLabelText(/password/i)
     const button = screen.getByRole('button', {name: /enter/i})
@@ -40,5 +41,20 @@ describe('Testa a tela de login', () => {
     userEvent.type(password, "12345678")
 
     expect(button).toBeEnabled();
+  })
+
+  test('Testa o comportamento do botão', () => {
+    const { history } = renderWithRouter(<App />);
+
+    const email = screen.getByLabelText(/email/i)
+    const password = screen.getByLabelText(/password/i)
+    const button = screen.getByRole('button', {name: /enter/i})
+
+    userEvent.type(email, "marcelinho@teste.com")
+    userEvent.type(password, "12345678")
+
+    userEvent.click(button)
+
+    expect(history.location.pathname).toBe("/foods")
   })
 })
