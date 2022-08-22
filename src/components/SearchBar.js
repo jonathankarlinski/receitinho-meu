@@ -26,7 +26,7 @@ export default function SearchBar() {
             />
             <label htmlFor="radio-ingredient">
               <input
-                type="radioio"
+                type="radio"
                 data-testid="ingredient-search-radio"
                 name="radio"
                 id="radio-ingredient"
