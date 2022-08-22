@@ -18,7 +18,6 @@ export default function SearchBar() {
         />
       </button>
       {
-
         visible && (
           <>
             <input
