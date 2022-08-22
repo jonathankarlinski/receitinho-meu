@@ -18,10 +18,44 @@ export default function SearchBar() {
         />
       </button>
       {
-        visible && <input
-          type="text"
-          data-testid="search-input"
-        />
+        visible && (
+          <>
+            <input
+              type="text"
+              data-testid="search-input"
+            />
+            <label htmlFor="radio-ingredient">
+              <input
+                type="radio"
+                data-testid="ingredient-search-radio"
+                name="radio"
+                id="radio-ingredient"
+              />
+            </label>
+            <label htmlFor="radio-name">
+              <input
+                type="radio"
+                data-testid="name-search-radio"
+                name="radio"
+                id="radio-name"
+              />
+            </label>
+            <label htmlFor="radio-first-letter">
+              <input
+                type="radio"
+                data-testid="first-letter-search-radio"
+                name="radio"
+                id="radio-first-letter"
+              />
+            </label>
+            <button
+              type="button"
+              data-testid="exec-search-btn"
+            >
+              Search
+            </button>
+          </>
+        )
       }
     </div>
   );
