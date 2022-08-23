@@ -1,11 +1,11 @@
-import React, { createContext, useState, useEffect, useMemo } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import {
+  fetchByFirstLetter,
   fetchByIngredient,
   fetchByName,
-  fetchByFirstLetter,
 } from '../services/searchAPI';
 
 const SearchContext = createContext({
@@ -39,7 +39,7 @@ export const SearchProvider = ({ children }) => {
         return setItems([]);
       }
 
-      const test = Object.values(searchResults)[0];
+      const test = searchResults[type === 'meal' ? 'meals' : 'drinks'];
 
       setItems(test);
     };
