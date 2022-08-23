@@ -1,5 +1,5 @@
-export const fetchByIngredient = async (ingredient) => {
-  const url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`;
+export const fetchByIngredient = async (ingredient, type) => {
+  const url = `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${ingredient}`;
 
   try {
     const res = await fetch(url);
@@ -11,8 +11,8 @@ export const fetchByIngredient = async (ingredient) => {
   }
 };
 
-export const fetchByName = async (name) => {
-  const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`;
+export const fetchByName = async (name, type) => {
+  const url = `https://www.the${type}db.com/api/json/v1/1/search.php?s=${name}`;
 
   try {
     const res = await fetch(url);
@@ -24,8 +24,8 @@ export const fetchByName = async (name) => {
   }
 };
 
-export const fetchByFirstLetter = async (firstLetter) => {
-  const url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${firstLetter}`;
+export const fetchByFirstLetter = async (firstLetter, type) => {
+  const url = `https://www.the${type}db.com/api/json/v1/1/search.php?f=${firstLetter}`;
 
   try {
     if (firstLetter.length > 1) {

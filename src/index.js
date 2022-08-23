@@ -8,11 +8,11 @@ import App from './App';
 import './index.css';
 
 ReactDOM.render(
-  <SearchProvider>
-    <BrowserRouter>
+  <BrowserRouter>
+    <SearchProvider>
       <App />
-    </BrowserRouter>
-  </SearchProvider>,
+    </SearchProvider>
+  </BrowserRouter>,
   document.getElementById('root'),
 );
 
