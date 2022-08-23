@@ -30,8 +30,6 @@ export const fetchByFirstLetter = async (firstLetter, type) => {
   try {
     if (firstLetter.length > 1) {
       global.alert('Your search must have only 1 (one) character');
-
-      throw new Error();
     }
 
     const res = await fetch(url);
