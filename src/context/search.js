@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { createContext, useState, useEffect, useMemo } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import {
@@ -19,22 +19,41 @@ export const SearchProvider = ({ children }) => {
   const [items, setItems] = useState([]);
 
   const location = useLocation();
+  const history = useHistory();
+
+  const type = useMemo(() => (
+    location.pathname.includes('foods') ? 'meal' : 'cocktail'
+  ), [location.pathname]);
 
   useEffect(() => {
-    const fetchFoods = async () => {
-      const type = location.pathname === '/foods' ? 'meal' : 'cocktail';
+    const fetchAPI = async () => {
+      let searchResults = {};
 
       if (filter === 'ingredient') {
-        setItems(await fetchByIngredient(query, type));
+        searchResults = await fetchByIngredient(query, type);
       } else if (filter === 'name') {
-        setItems(await fetchByName(query, type));
+        searchResults = await fetchByName(query, type);
       } else if (filter === 'first-letter') {
-        setItems(await fetchByFirstLetter(query, type));
+        searchResults = await fetchByFirstLetter(query, type);
+      } else {
+        return setItems([]);
       }
+
+      setItems(Object.values(searchResults)[0]);
     };
 
-    fetchFoods();
-  }, [filter, query, location.pathname]);
+    fetchAPI();
+  }, [filter, query]);
+
+  useEffect(() => {
+    if (items.length === 1) {
+      history.push(`${
+        location.pathname.includes('foods') ? '/foods' : '/drinks'
+      }/${
+        items[0][location.pathname === '/foods' ? 'idMeal' : 'idDrink']
+      }`);
+    }
+  }, [items]);
 
   const search = (newFilter, newQuery) => {
     setFilter(newFilter);
