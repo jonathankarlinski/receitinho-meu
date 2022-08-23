@@ -39,7 +39,9 @@ export const SearchProvider = ({ children }) => {
         return setItems([]);
       }
 
-      setItems(Object.values(searchResults)[0]);
+      const test = Object.values(searchResults)[0];
+
+      setItems(test);
     };
 
     fetchAPI();
