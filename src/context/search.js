@@ -39,9 +39,7 @@ export const SearchProvider = ({ children }) => {
         return setItems([]);
       }
 
-      const test = searchResults[type === 'meal' ? 'meals' : 'drinks'];
-
-      setItems(test);
+      setItems(searchResults[type === 'meal' ? 'meals' : 'drinks']);
     };
 
     fetchAPI();
