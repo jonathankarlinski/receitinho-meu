@@ -4,8 +4,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   fetchByFirstLetter,
-  fetchByIngredient,
   fetchByName,
+  fetchByIngredient,
 } from '../services/searchAPI';
 
 const SearchContext = createContext({
