@@ -1,6 +1,12 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
-import { fetchByIngredient, fetchByName, fetchByFirstLetter } from '../services/foodAPI';
+import {
+  fetchByIngredient,
+  fetchByName,
+  fetchByFirstLetter,
+} from '../services/searchAPI';
 
 const SearchContext = createContext({
   search: () => {},
@@ -12,15 +18,23 @@ export const SearchProvider = ({ children }) => {
   const [filter, setFilter] = useState('');
   const [items, setItems] = useState([]);
 
+  const location = useLocation();
+
   useEffect(() => {
-    if (filter === 'ingredient') {
-      setItems(fetchByIngredient(query));
-    } else if (filter === 'name') {
-      setItems(fetchByName(query));
-    } else if (filter === 'first-letter') {
-      setItems(fetchByFirstLetter(query));
-    }
-  }, [filter, query]);
+    const fetchFoods = async () => {
+      const type = location.pathname === '/foods' ? 'meal' : 'cocktail';
+
+      if (filter === 'ingredient') {
+        setItems(await fetchByIngredient(query, type));
+      } else if (filter === 'name') {
+        setItems(await fetchByName(query, type));
+      } else if (filter === 'first-letter') {
+        setItems(await fetchByFirstLetter(query, type));
+      }
+    };
+
+    fetchFoods();
+  }, [filter, query, location.pathname]);
 
   const search = (newFilter, newQuery) => {
     setFilter(newFilter);

@@ -6,7 +6,11 @@ import Header from '../components/Header';
 
 describe('Testa do componente Header', () => {
   test('Testa se existe os links de perfil e search', () => {
-    renderWithRouter(<Header />);
+    renderWithRouter(
+      <Header
+        title='Teste'
+      />,
+    );
     
     const profile = screen.getByTestId('profile-top-btn')
     const search = screen.getByTestId('search-top-btn')
