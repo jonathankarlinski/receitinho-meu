@@ -1,13 +1,21 @@
+const NO_RESULTS_ERROR = 'Sorry, we haven\'t found any recipes for these filters.';
+
 export const fetchByIngredient = async (ingredient, type) => {
   const url = `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${ingredient}`;
 
   try {
     const res = await fetch(url);
     const data = await res.json();
+    const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    return data;
-  } catch (error) {
-    console.error(err);
+    if (!results) {
+      global.alert(NO_RESULTS_ERROR);
+      return [];
+    }
+
+    return results;
+  } catch (err) {
+    global.alert(err);
   }
 };
 
@@ -17,10 +25,16 @@ export const fetchByName = async (name, type) => {
   try {
     const res = await fetch(url);
     const data = await res.json();
+    const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    return data;
-  } catch (error) {
-    console.error(err);
+    if (!results || results.length === 0) {
+      global.alert(NO_RESULTS_ERROR);
+      return [];
+    }
+
+    return results;
+  } catch (err) {
+    global.alert(err);
   }
 };
 
@@ -34,9 +48,15 @@ export const fetchByFirstLetter = async (firstLetter, type) => {
 
     const res = await fetch(url);
     const data = await res.json();
+    const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    return data;
+    if (!results || results.length === 0) {
+      global.alert(NO_RESULTS_ERROR);
+      return [];
+    }
+
+    return results;
   } catch (err) {
-    console.error(err);
+    global.alert(err);
   }
 };
