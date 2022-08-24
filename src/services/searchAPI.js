@@ -11,7 +11,7 @@ export const fetchCategories = async (type) => {
 
     return results.slice(0, MAX_CATEGORIES);
   } catch (err) {
-    global.alert(err);
+    console.log(err);
   }
 };
 
@@ -30,7 +30,7 @@ export const fetchByCategory = async (category, type) => {
 
     return results;
   } catch (err) {
-    global.alert(err);
+    console.log(err);
   }
 };
 
@@ -49,7 +49,7 @@ export const fetchByName = async (name, type) => {
 
     return results;
   } catch (err) {
-    global.alert(err);
+    console.log(err);
   }
 };
 
@@ -68,7 +68,7 @@ export const fetchByIngredient = async (ingredient, type) => {
 
     return results;
   } catch (err) {
-    global.alert(err);
+    console.log(err);
   }
 };
 
@@ -91,6 +91,6 @@ export const fetchByFirstLetter = async (firstLetter, type) => {
 
     return results;
   } catch (err) {
-    global.alert(err);
+    console.log(err);
   }
 };

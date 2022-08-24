@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SearchContext from '../context/search';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -41,7 +41,12 @@ export default function Recipes() {
         (
           Array.isArray(items)
         ) && items.slice(0, MAX_RESULTS).map((item, index) => (
-          <div
+          <Link
+            to={ `${
+              location.pathname.includes('foods') ? '/foods' : '/drinks'
+            }/${
+              item[`id${type}`]
+            }` }
             key={ index }
             data-testid={ `${index}-recipe-card` }
           >
@@ -59,7 +64,7 @@ export default function Recipes() {
             >
               {item[`str${type}`]}
             </p>
-          </div>
+          </Link>
         ))
       }
       <Footer />

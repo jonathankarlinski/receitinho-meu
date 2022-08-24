@@ -31,9 +31,14 @@ export const SearchProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchAPI = async () => {
-      const results = await fetchCategories(type);
+      setCategories([]);
+      setItems([]);
 
-      setCategories(results);
+      const newCategories = await fetchCategories(type);
+      const newItems = await fetchByName('', type);
+
+      setCategories(newCategories);
+      setItems(newItems);
     };
 
     fetchAPI();
@@ -44,19 +49,14 @@ export const SearchProvider = ({ children }) => {
       let searchResults = [];
 
       if (filter === 'ingredient') {
-        console.log('ingrediente');
         searchResults = await fetchByIngredient(query, type);
       } else if (filter === 'name') {
-        console.log('name');
         searchResults = await fetchByName(query, type);
       } else if (filter === 'first-letter') {
-        console.log('first-letter');
         searchResults = await fetchByFirstLetter(query, type);
       } else if (filter === 'category') {
-        console.log('category');
         searchResults = await fetchByCategory(query, type);
       } else {
-        console.log('ultimo');
         searchResults = await fetchByName(query, type);
       }
 
@@ -64,7 +64,7 @@ export const SearchProvider = ({ children }) => {
     };
 
     fetchAPI();
-  }, [filter, query, type]);
+  }, [filter, query]);
 
   useEffect(() => {
     if (filter === 'category') {
@@ -81,8 +81,13 @@ export const SearchProvider = ({ children }) => {
   }, [items]);
 
   const search = (newFilter, newQuery) => {
-    setFilter(newFilter);
-    setQuery(newQuery);
+    if (newFilter === filter && newQuery === query) {
+      setFilter('');
+      setQuery('');
+    } else {
+      setFilter(newFilter);
+      setQuery(newQuery);
+    }
   };
 
   return (
