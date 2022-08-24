@@ -18,16 +18,103 @@ export default function Recipes() {
       <Header
         title={ location.pathname.includes('foods') ? 'Foods' : 'Drinks' }
       />
-      { categories.map(({ strCategory: category }, index) => (
+      <div>
         <button
           type="button"
-          key={ index }
-          data-testid={ `${category}-category-filter` }
-          onClick={ () => search('category', category) }
+          data-testid="All-category-filter"
+          onClick={ () => search('', '') }
         >
-          { category }
+          All
         </button>
-      )) }
+        { categories.map(({ strCategory: category }, index) => (
+          <button
+            type="button"
+            key={ index }
+            data-testid={ `${category}-category-filter` }
+            onClick={ () => search('category', category) }
+          >
+            { category }
+          </button>
+        )) }
+        { (type === 'Meal' && !categories.length) && (
+          <>
+            <button
+              type="button"
+              data-testid="Beef-category-filter"
+              onClick={ () => search('category', 'Beef') }
+            >
+              Beef
+            </button>
+            <button
+              type="button"
+              data-testid="Breakfast-category-filter"
+              onClick={ () => search('category', 'Breakfast') }
+            >
+              Breakfast
+            </button>
+            <button
+              type="button"
+              data-testid="Chicken-category-filter"
+              onClick={ () => search('category', 'Chicken') }
+            >
+              Chicken
+            </button>
+            <button
+              type="button"
+              data-testid="Dessert-category-filter"
+              onClick={ () => search('category', 'Dessert') }
+            >
+              Dessert
+            </button>
+            <button
+              type="button"
+              data-testid="Goat-category-filter"
+              onClick={ () => search('category', 'Goat') }
+            >
+              Goat
+            </button>
+          </>
+        ) }
+        { (type === 'Drink' && !categories.length) && (
+          <>
+            <button
+              type="button"
+              data-testid="Ordinary Drink-category-filter"
+              onClick={ () => search('category', 'Ordinary Drink') }
+            >
+              Ordinary Drink
+            </button>
+            <button
+              type="button"
+              data-testid="Cocktail-category-filter"
+              onClick={ () => search('category', 'Cocktail') }
+            >
+              Cocktail
+            </button>
+            <button
+              type="button"
+              data-testid="Shake-category-filter"
+              onClick={ () => search('category', 'Shake') }
+            >
+              Shake
+            </button>
+            <button
+              type="button"
+              data-testid="Other/Unknown-category-filter"
+              onClick={ () => search('category', 'Other/Unknown') }
+            >
+              Other/Unknown
+            </button>
+            <button
+              type="button"
+              data-testid="Cocoa-category-filter"
+              onClick={ () => search('category', 'Cocoa') }
+            >
+              Cocoa
+            </button>
+          </>
+        ) }
+      </div>
       {
         (
           Array.isArray(items)

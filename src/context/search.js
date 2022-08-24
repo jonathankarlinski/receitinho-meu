@@ -70,8 +70,6 @@ export const SearchProvider = ({ children }) => {
 
   useEffect(() => {
     if (filter === 'category') {
-      setFilter('');
-      setQuery('');
       // console.log('terceiro useeffect');
       return;
     }
