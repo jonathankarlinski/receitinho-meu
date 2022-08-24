@@ -8,6 +8,7 @@ describe('Testa a tela de login', () => {
   test('Testa os inputs de email e password', () => {
     renderWithRouter(<App />);
     
+
     const email = screen.getByLabelText(/email/i)
     const password = screen.getByLabelText(/password/i)
   

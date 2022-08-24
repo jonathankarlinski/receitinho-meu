@@ -39,14 +39,14 @@ export const SearchProvider = ({ children }) => {
         return setItems([]);
       }
 
-      setItems(searchResults[type === 'meal' ? 'meals' : 'drinks']);
+      setItems(searchResults);
     };
 
     fetchAPI();
   }, [filter, query]);
 
   useEffect(() => {
-    if (items.length === 1) {
+    if (Array.isArray(items) && items.length === 1) {
       history.push(`${
         location.pathname.includes('foods') ? '/foods' : '/drinks'
       }/${

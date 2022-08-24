@@ -18,7 +18,9 @@ export default function Recipes() {
         title={ location.pathname.includes('foods') ? 'Foods' : 'Drinks' }
       />
       {
-        items.slice(0, MAX_RESULTS).map((item, index) => (
+        (
+          Array.isArray(items)
+        ) && items.slice(0, MAX_RESULTS).map((item, index) => (
           <div
             key={ index }
             data-testid={ `${index}-recipe-card` }
