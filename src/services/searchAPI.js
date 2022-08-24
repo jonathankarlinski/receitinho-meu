@@ -8,7 +8,7 @@ export const fetchByIngredient = async (ingredient, type) => {
     const data = await res.json();
     const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    if (!results) {
+    if (!results || results.length === 0) {
       global.alert(NO_RESULTS_ERROR);
       return [];
     }
