@@ -36,7 +36,7 @@ export const SearchProvider = ({ children }) => {
       } else if (filter === 'first-letter') {
         searchResults = await fetchByFirstLetter(query, type);
       } else {
-        return setItems([]);
+        searchResults = await fetchByName(query, type);
       }
 
       setItems(searchResults);
