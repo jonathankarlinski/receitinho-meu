@@ -15,6 +15,25 @@ export const fetchCategories = async (type) => {
   }
 };
 
+export const fetchByCategory = async (category, type) => {
+  const url = `https://www.the${type}db.com/api/json/v1/1/filter.php?c=${category}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const results = data[type === 'meal' ? 'meals' : 'drinks'];
+
+    if (!results || results.length === 0) {
+      global.alert(NO_RESULTS_ERROR);
+      return [];
+    }
+
+    return results;
+  } catch (err) {
+    global.alert(err);
+  }
+};
+
 export const fetchByName = async (name, type) => {
   const url = `https://www.the${type}db.com/api/json/v1/1/search.php?s=${name}`;
 

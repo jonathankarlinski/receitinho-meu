@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 
 export default function Recipes() {
   const location = useLocation();
-  const { items, categories } = useContext(SearchContext);
+  const { items, categories, search } = useContext(SearchContext);
   const MAX_RESULTS = 12;
 
   const type = useMemo(() => (
@@ -19,7 +19,12 @@ export default function Recipes() {
         title={ location.pathname.includes('foods') ? 'Foods' : 'Drinks' }
       />
       { categories.map(({ strCategory: category }, index) => (
-        <button type="button" key={ index } data-testid={ `${category}-category-filter` }>
+        <button
+          type="button"
+          key={ index }
+          data-testid={ `${category}-category-filter` }
+          onClick={ () => search('category', category) }
+        >
           { category }
         </button>
       )) }
