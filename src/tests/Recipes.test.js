@@ -14,4 +14,13 @@ describe('Testa do componente Recipes', () => {
     expect(profile).toBeInTheDocument();
     expect(search).toBeInTheDocument();
   });
+  test('Testa comportamento de click no botão All', () => {
+    renderWithRouter(<Recipes />);
+
+    const btn = screen.getByTestId('All-category-filter')
+
+    expect(btn).toBeInTheDocument();
+    userEvent.click(btn);
+  })
+
 });

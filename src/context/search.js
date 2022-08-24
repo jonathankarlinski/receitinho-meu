@@ -33,8 +33,6 @@ export const SearchProvider = ({ children }) => {
     const fetchAPI = async () => {
       const results = await fetchCategories(type);
 
-      console.log(results);
-
       setCategories(results);
     };
 
@@ -46,19 +44,19 @@ export const SearchProvider = ({ children }) => {
       let searchResults = [];
 
       if (filter === 'ingredient') {
-        // console.log('ingredient');
+        console.log('ingrediente');
         searchResults = await fetchByIngredient(query, type);
       } else if (filter === 'name') {
-        // console.log('name');
+        console.log('name');
         searchResults = await fetchByName(query, type);
       } else if (filter === 'first-letter') {
-        // console.log('first-letter');
+        console.log('first-letter');
         searchResults = await fetchByFirstLetter(query, type);
       } else if (filter === 'category') {
-        // console.log('category');
+        console.log('category');
         searchResults = await fetchByCategory(query, type);
       } else {
-        // console.log('inicial');
+        console.log('ultimo');
         searchResults = await fetchByName(query, type);
       }
 
@@ -70,7 +68,6 @@ export const SearchProvider = ({ children }) => {
 
   useEffect(() => {
     if (filter === 'category') {
-      // console.log('terceiro useeffect');
       return;
     }
 

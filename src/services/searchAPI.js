@@ -9,15 +9,7 @@ export const fetchCategories = async (type) => {
     const data = await res.json();
     const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    console.log(JSON.stringify({
-      res,
-      data,
-      results,
-      type,
-      url,
-    }, null, 2));
-
-    return results.splice(0, MAX_CATEGORIES);
+    return results.slice(0, MAX_CATEGORIES);
   } catch (err) {
     global.alert(err);
   }
