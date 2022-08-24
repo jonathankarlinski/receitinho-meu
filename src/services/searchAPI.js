@@ -1,7 +1,22 @@
 const NO_RESULTS_ERROR = 'Sorry, we haven\'t found any recipes for these filters.';
+const MAX_CATEGORIES = 5;
 
-export const fetchByIngredient = async (ingredient, type) => {
-  const url = `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${ingredient}`;
+export const fetchCategories = async (type) => {
+  const url = `https://www.the${type}db.com/api/json/v1/1/list.php?c=list`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const results = data[type === 'meal' ? 'meals' : 'drinks'];
+
+    return results.splice(0, MAX_CATEGORIES);
+  } catch (err) {
+    global.alert(err);
+  }
+};
+
+export const fetchByName = async (name, type) => {
+  const url = `https://www.the${type}db.com/api/json/v1/1/search.php?s=${name}`;
 
   try {
     const res = await fetch(url);
@@ -19,8 +34,8 @@ export const fetchByIngredient = async (ingredient, type) => {
   }
 };
 
-export const fetchByName = async (name, type) => {
-  const url = `https://www.the${type}db.com/api/json/v1/1/search.php?s=${name}`;
+export const fetchByIngredient = async (ingredient, type) => {
+  const url = `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${ingredient}`;
 
   try {
     const res = await fetch(url);

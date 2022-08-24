@@ -3,20 +3,23 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import {
-  fetchByFirstLetter,
+  fetchCategories,
   fetchByName,
+  fetchByFirstLetter,
   fetchByIngredient,
 } from '../services/searchAPI';
 
 const SearchContext = createContext({
   search: () => {},
   items: [],
+  categories: [],
 });
 
 export const SearchProvider = ({ children }) => {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('');
   const [items, setItems] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const location = useLocation();
   const history = useHistory();
@@ -24,6 +27,16 @@ export const SearchProvider = ({ children }) => {
   const type = useMemo(() => (
     location.pathname.includes('foods') ? 'meal' : 'cocktail'
   ), [location.pathname]);
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const results = await fetchCategories(type);
+
+      setCategories(results);
+    };
+
+    fetchAPI();
+  }, []);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -62,7 +75,7 @@ export const SearchProvider = ({ children }) => {
 
   return (
     <div>
-      <SearchContext.Provider value={ { search, items } }>
+      <SearchContext.Provider value={ { search, items, categories } }>
         { children }
       </SearchContext.Provider>
     </div>
