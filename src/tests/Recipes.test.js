@@ -57,6 +57,7 @@ describe('Testa do componente Recipes', () => {
       </SearchProvider>
     );
 
+    history.push("/foods");
     expect(history.location.pathname).toBe("/foods")
 
     const btn = screen.getByTestId('All-category-filter')
