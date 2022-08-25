@@ -7,6 +7,7 @@ import {
   fetchByName,
   fetchByFirstLetter,
   fetchByIngredient,
+  fetchByCategory,
 } from '../services/searchAPI';
 
 const SearchContext = createContext({
@@ -30,17 +31,22 @@ export const SearchProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchAPI = async () => {
-      const results = await fetchCategories(type);
+      setCategories([]);
+      setItems([]);
 
-      setCategories(results);
+      const newCategories = await fetchCategories(type);
+      const newItems = await fetchByName('', type);
+
+      setCategories(newCategories);
+      setItems(newItems);
     };
 
     fetchAPI();
-  }, []);
+  }, [type]);
 
   useEffect(() => {
     const fetchAPI = async () => {
-      let searchResults = {};
+      let searchResults = [];
 
       if (filter === 'ingredient') {
         searchResults = await fetchByIngredient(query, type);
@@ -48,6 +54,8 @@ export const SearchProvider = ({ children }) => {
         searchResults = await fetchByName(query, type);
       } else if (filter === 'first-letter') {
         searchResults = await fetchByFirstLetter(query, type);
+      } else if (filter === 'category') {
+        searchResults = await fetchByCategory(query, type);
       } else {
         searchResults = await fetchByName(query, type);
       }
@@ -59,6 +67,10 @@ export const SearchProvider = ({ children }) => {
   }, [filter, query]);
 
   useEffect(() => {
+    if (filter === 'category') {
+      return;
+    }
+
     if (Array.isArray(items) && items.length === 1) {
       history.push(`${
         location.pathname.includes('foods') ? '/foods' : '/drinks'
@@ -69,8 +81,13 @@ export const SearchProvider = ({ children }) => {
   }, [items]);
 
   const search = (newFilter, newQuery) => {
-    setFilter(newFilter);
-    setQuery(newQuery);
+    if (newFilter === filter && newQuery === query) {
+      setFilter('');
+      setQuery('');
+    } else {
+      setFilter(newFilter);
+      setQuery(newQuery);
+    }
   };
 
   return (

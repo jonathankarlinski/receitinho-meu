@@ -1,12 +1,12 @@
 import React, { useContext, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SearchContext from '../context/search';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export default function Recipes() {
   const location = useLocation();
-  const { items, categories } = useContext(SearchContext);
+  const { items, categories, search } = useContext(SearchContext);
   const MAX_RESULTS = 12;
 
   const type = useMemo(() => (
@@ -18,16 +18,35 @@ export default function Recipes() {
       <Header
         title={ location.pathname.includes('foods') ? 'Foods' : 'Drinks' }
       />
-      { categories.map(({ strCategory: category }, index) => (
-        <button type="button" key={ index } data-testid={ `${category}-category-filter` }>
-          { category }
+      <div>
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          onClick={ () => search('', '') }
+        >
+          All
         </button>
-      )) }
+        { categories.map(({ strCategory: category }, index) => (
+          <button
+            type="button"
+            key={ index }
+            data-testid={ `${category}-category-filter` }
+            onClick={ () => search('category', category) }
+          >
+            { category }
+          </button>
+        )) }
+      </div>
       {
         (
           Array.isArray(items)
         ) && items.slice(0, MAX_RESULTS).map((item, index) => (
-          <div
+          <Link
+            to={ `${
+              location.pathname.includes('foods') ? '/foods' : '/drinks'
+            }/${
+              item[`id${type}`]
+            }` }
             key={ index }
             data-testid={ `${index}-recipe-card` }
           >
@@ -45,7 +64,7 @@ export default function Recipes() {
             >
               {item[`str${type}`]}
             </p>
-          </div>
+          </Link>
         ))
       }
       <Footer />

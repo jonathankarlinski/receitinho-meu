@@ -7,9 +7,9 @@ import Footer from '../components/Footer';
 describe('Testa do componente Footer', () => {
   test('Testa se existe o texto footer', () => {
     renderWithRouter(<Footer />);
-    
-    const text = screen.getByText('Footer')
-  
-    expect(text).toBeInTheDocument();
+
+    const images = screen.getAllByRole('img')
+
+    expect(images).toHaveLength(2);
   });
 });
