@@ -22,16 +22,27 @@ export default function RecipeDetails() {
   }), [location.pathname]);
 
   const isDone = useMemo(() => (
-    JSON.parse(localStorage.getItem('doneRecipes') || '[]')
-      .some(({ id: recipeId }) => (
+    localStorage.getItem('doneRecipes')
+      && JSON.parse(
+        localStorage.getItem('doneRecipes'),
+      ).some(({ id: recipeId }) => (
         recipeId === id
       ))
+  ), [location.pathname]);
+
+  const inProgress = useMemo(() => (
+    localStorage.getItem('inProgressRecipes')
+      && Object.keys(
+        JSON.parse(localStorage.getItem('inProgressRecipes'))[type.path],
+      )
   ), [location.pathname]);
 
   useEffect(() => {
     const fetchAPI = async () => {
       const item = await fetchById(id, type.path);
       const recommended = await fetchByName('', type.recommendation.path);
+
+      console.warn(localStorage.getItem('inProgressRecipes'));
 
       setItemRecommended(recommended);
       setRecipe(item);
@@ -130,7 +141,7 @@ export default function RecipeDetails() {
               bottom: 0,
             } }
           >
-            Start Recipe
+            { inProgress ? 'Continue Recipe' : 'Start Recipe' }
           </button>
         )
       }
