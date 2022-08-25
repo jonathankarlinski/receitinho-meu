@@ -3,6 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import { fetchById, fetchByName } from '../services/searchAPI';
 
 export default function RecipeDetails() {
+  const MAX_CARDS = 6;
   const [recipe, setRecipe] = useState({
     ingredients: [],
   });
@@ -19,6 +20,13 @@ export default function RecipeDetails() {
       name: location.pathname.includes('foods') ? 'Drink' : 'Meal',
     },
   }), [location.pathname]);
+
+  const isDone = useMemo(() => (
+    JSON.parse(localStorage.getItem('doneRecipes') || '[]')
+      .some(({ id: recipeId }) => (
+        recipeId === id
+      ))
+  ), [location.pathname]);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -90,7 +98,7 @@ export default function RecipeDetails() {
           padding: '0.75rem',
         } }
       >
-        { itemRecommended.slice(0, 2 + 2 + 2).map((recom, index) => (
+        { itemRecommended.slice(0, MAX_CARDS).map((recom, index) => (
           <div
             key={ index }
             data-testid={ `${index}-recomendation-card` }
@@ -112,16 +120,20 @@ export default function RecipeDetails() {
           </div>
         )) }
       </section>
-      <button
-        type="button"
-        data-testid="start-recipe-btn"
-        style={ {
-          position: 'fixed',
-          bottom: 0,
-        } }
-      >
-        Start Recipe
-      </button>
+      {
+        !isDone && (
+          <button
+            type="button"
+            data-testid="start-recipe-btn"
+            style={ {
+              position: 'fixed',
+              bottom: 0,
+            } }
+          >
+            Start Recipe
+          </button>
+        )
+      }
     </div>
   );
 }
