@@ -69,7 +69,7 @@ export default function RecipeDetails() {
             height="250"
             data-testid="video"
             src={ `https://www.youtube.com/embed/${
-              recipe.strYoutube.split('v=')[1]
+              recipe.strYoutube.split('?v=')[1]
             }` }
             title="YouTube video player"
             frameBorder="0"
@@ -95,7 +95,7 @@ export default function RecipeDetails() {
             key={ index }
             data-testid={ `${index}-recomendation-card` }
             style={ {
-              width: '40vw',
+              width: '60vw',
             } }
           >
             <img
@@ -103,15 +103,25 @@ export default function RecipeDetails() {
               src={ recom[`str${type.recommendation.name}Thumb`] }
               alt={ `${recom[`str${type.recommendation.name}`]}` }
               style={ {
-                height: '9rem',
+                height: '12rem',
               } }
             />
-            <p>
+            <p data-testid={ `${index}-recomendation-title` }>
               {recom[`str${type.recommendation.name}`]}
             </p>
           </div>
         )) }
       </section>
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        style={ {
+          position: 'fixed',
+          bottom: 0,
+        } }
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }
