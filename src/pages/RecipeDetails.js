@@ -33,8 +33,10 @@ export default function RecipeDetails() {
   const inProgress = useMemo(() => (
     localStorage.getItem('inProgressRecipes')
       && Object.keys(
-        JSON.parse(localStorage.getItem('inProgressRecipes'))[type.path],
-      )
+        JSON.parse(localStorage.getItem('inProgressRecipes'))[`${type.path}s`],
+      ).some((key) => (
+        key === id
+      ))
   ), [location.pathname]);
 
   useEffect(() => {
