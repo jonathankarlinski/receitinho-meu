@@ -86,12 +86,24 @@ export default function RecipeDetails() {
       image: recipe[`str${type.name}Thumb`],
     };
 
+    if (isFavorite) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([
+        favoriteItems.filter((item) => (
+          item.id !== id
+        )),
+      ]));
+
+      setIsFavorite(false);
+
+      return;
+    }
+
     localStorage.setItem('favoriteRecipes', JSON.stringify([
       ...favoriteItems,
       curr,
     ]));
 
-    setIsFavorite(!isFavorite);
+    setIsFavorite(true);
   };
 
   return (
