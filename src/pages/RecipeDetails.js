@@ -9,7 +9,6 @@ export default function RecipeDetails() {
     ingredients: [],
   });
   const [itemRecommended, setItemRecommended] = useState([]);
-
   const { id } = useParams();
   const location = useLocation();
 
@@ -46,8 +45,6 @@ export default function RecipeDetails() {
       const item = await fetchById(id, type.path);
       const recommended = await fetchByName('', type.recommendation.path);
 
-      console.warn(localStorage.getItem('inProgressRecipes'));
-
       setItemRecommended(recommended);
       setRecipe(item);
     };
@@ -63,6 +60,25 @@ export default function RecipeDetails() {
     setTimeout(() => {
       e.target.innerText = 'Share';
     }, Number('750'));
+  };
+
+  const handleFavorite = () => {
+    const favoriteItems = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+
+    const curr = {
+      id: recipe[`id${type.name}`],
+      type: location.pathname.includes('foods') ? 'food' : 'drink',
+      nationality: recipe.strArea || '',
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic || '',
+      name: recipe[`str${type.name}`],
+      image: recipe[`str${type.name}Thumb`],
+    };
+
+    localStorage.setItem('favoriteRecipes', JSON.stringify([
+      ...favoriteItems,
+      curr,
+    ]));
   };
 
   return (
@@ -90,6 +106,7 @@ export default function RecipeDetails() {
       <button
         type="button"
         data-testid="favorite-btn"
+        onClick={ () => handleFavorite() }
       >
         Add to favorites
       </button>
