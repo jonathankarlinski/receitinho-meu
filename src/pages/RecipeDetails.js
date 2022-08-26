@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
+import clipboardCopy from 'clipboard-copy';
 import { fetchById, fetchByName } from '../services/searchAPI';
 
 export default function RecipeDetails() {
@@ -13,6 +14,7 @@ export default function RecipeDetails() {
   const location = useLocation();
 
   const type = useMemo(() => ({
+    route: location.pathname.includes('foods') ? '/foods' : '/drinks',
     path: location.pathname.includes('foods') ? 'meal' : 'cocktail',
     name: location.pathname.includes('foods') ? 'Meal' : 'Drink',
     recommendation: {
@@ -53,6 +55,16 @@ export default function RecipeDetails() {
     fetchAPI();
   }, []);
 
+  const handleCopy = (e) => {
+    e.target.innerText = 'Link copied!';
+
+    clipboardCopy(window.location.href);
+
+    setTimeout(() => {
+      e.target.innerText = 'Share';
+    }, Number('750'));
+  };
+
   return (
     <div>
       <img
@@ -68,7 +80,20 @@ export default function RecipeDetails() {
         &nbsp;
         { recipe.strAlcoholic }
       </p>
-      <h3>Ingredientes</h3>
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ (e) => handleCopy(e) }
+      >
+        Share
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        Add to favorites
+      </button>
+      <h3>Ingredients</h3>
       { recipe.ingredients.map((ingredient, index) => (
         <div key={ index }>
           <p data-testid={ `${index}-ingredient-name-and-measure` }>
@@ -79,7 +104,7 @@ export default function RecipeDetails() {
           </p>
         </div>
       )) }
-      <h3>Instruções</h3>
+      <h3>Instructions</h3>
       <p data-testid="instructions">
         { recipe.strInstructions }
       </p>
@@ -101,7 +126,7 @@ export default function RecipeDetails() {
           />
         </div>
       ) }
-      <h3>Recomendações</h3>
+      <h3>Recommendations</h3>
       <section
         style={ {
           display: 'flex',
@@ -135,16 +160,22 @@ export default function RecipeDetails() {
       </section>
       {
         !isDone && (
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            style={ {
-              position: 'fixed',
-              bottom: 0,
-            } }
+          <Link
+            to={
+              `${type.route}/${id}/in-progress`
+            }
           >
-            { inProgress ? 'Continue Recipe' : 'Start Recipe' }
-          </button>
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              style={ {
+                position: 'fixed',
+                bottom: 0,
+              } }
+            >
+              { inProgress ? 'Continue Recipe' : 'Start Recipe' }
+            </button>
+          </Link>
         )
       }
     </div>
