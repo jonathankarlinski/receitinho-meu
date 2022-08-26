@@ -8,7 +8,7 @@ describe('Testa do componente RecipeDetails', () => {
   test('Testa se existe o componente', () => {
     renderWithRouter(<RecipeDetails />);
 
-    const text = screen.getByText('Recomendações')
+    const text = screen.getByText('Recommendations')
 
     waitFor(() => {
       expect(screen.getByTestId('0-recomendation-card')).toBeInTheDocument()
