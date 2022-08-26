@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
+import clipboardCopy from 'clipboard-copy';
 import { fetchById, fetchByName } from '../services/searchAPI';
 
 export default function RecipeDetails() {
@@ -54,6 +55,16 @@ export default function RecipeDetails() {
     fetchAPI();
   }, []);
 
+  const handleCopy = (e) => {
+    e.target.innerText = 'Link copied!';
+
+    clipboardCopy(window.location.href);
+
+    setTimeout(() => {
+      e.target.innerText = 'Share';
+    }, Number('750'));
+  };
+
   return (
     <div>
       <img
@@ -72,6 +83,7 @@ export default function RecipeDetails() {
       <button
         type="button"
         data-testid="share-btn"
+        onClick={ (e) => handleCopy(e) }
       >
         Share
       </button>
