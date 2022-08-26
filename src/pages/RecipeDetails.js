@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import { fetchById, fetchByName } from '../services/searchAPI';
 
 export default function RecipeDetails() {
@@ -13,6 +13,7 @@ export default function RecipeDetails() {
   const location = useLocation();
 
   const type = useMemo(() => ({
+    route: location.pathname.includes('foods') ? '/foods' : '/drinks',
     path: location.pathname.includes('foods') ? 'meal' : 'cocktail',
     name: location.pathname.includes('foods') ? 'Meal' : 'Drink',
     recommendation: {
@@ -135,16 +136,22 @@ export default function RecipeDetails() {
       </section>
       {
         !isDone && (
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            style={ {
-              position: 'fixed',
-              bottom: 0,
-            } }
+          <Link
+            to={
+              `${type.route}/${id}/in-progress`
+            }
           >
-            { inProgress ? 'Continue Recipe' : 'Start Recipe' }
-          </button>
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              style={ {
+                position: 'fixed',
+                bottom: 0,
+              } }
+            >
+              { inProgress ? 'Continue Recipe' : 'Start Recipe' }
+            </button>
+          </Link>
         )
       }
     </div>
