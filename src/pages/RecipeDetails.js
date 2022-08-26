@@ -69,7 +69,19 @@ export default function RecipeDetails() {
         &nbsp;
         { recipe.strAlcoholic }
       </p>
-      <h3>Ingredientes</h3>
+      <button
+        type="button"
+        data-testid="share-btn"
+      >
+        Share
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        Add to favorites
+      </button>
+      <h3>Ingredients</h3>
       { recipe.ingredients.map((ingredient, index) => (
         <div key={ index }>
           <p data-testid={ `${index}-ingredient-name-and-measure` }>
@@ -80,7 +92,7 @@ export default function RecipeDetails() {
           </p>
         </div>
       )) }
-      <h3>Instruções</h3>
+      <h3>Instructions</h3>
       <p data-testid="instructions">
         { recipe.strInstructions }
       </p>
@@ -102,7 +114,7 @@ export default function RecipeDetails() {
           />
         </div>
       ) }
-      <h3>Recomendações</h3>
+      <h3>Recommendations</h3>
       <section
         style={ {
           display: 'flex',
