@@ -28,7 +28,7 @@ describe('Testa do componente Recipes', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('Shake-category-filter')).toBeInTheDocument()
-    })
+    }, {timeout: 3000})
 
     const shake = screen.getByText('Shake')
 
@@ -40,7 +40,7 @@ describe('Testa do componente Recipes', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Blind Russian')).toBeInTheDocument()
-    })
+    }, {timeout: 3000})
 
     const blindRussian = screen.getByText('Blind Russian')
 
@@ -64,7 +64,7 @@ describe('Testa do componente Recipes', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('Goat-category-filter')).toBeInTheDocument()
-    })
+    }, {timeout: 3000})
 
     const goat = screen.getByText('Goat')
 
@@ -76,7 +76,7 @@ describe('Testa do componente Recipes', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Mbuzi Choma (Roasted Goat)')).toBeInTheDocument()
-    })
+    }, {timeout: 3000})
 
     const roastedGoat = screen.getByText('Mbuzi Choma (Roasted Goat)')
 
