@@ -1,10 +1,11 @@
-import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event'
-import renderWithRouter from '../utils/renderWithRouter';
-import RecipeDetails from '../pages/RecipeDetails';
-import { SearchProvider } from '../context/search';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
 import App from '../App';
+import { SearchProvider } from '../context/search';
+import RecipeDetails from '../pages/RecipeDetails';
+import renderWithRouter from '../utils/renderWithRouter';
+jest.mock('clipboard-copy');
 
 describe('Testa do componente RecipeDetails', () => {
   test('Testa se existe os componentes de texto', () => {
