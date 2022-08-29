@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import clipboardCopy from 'clipboard-copy';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { fetchById } from '../services/searchAPI';
 import FavoriteButton from '../components/FavoriteButton';
 
@@ -141,17 +141,19 @@ export default function RecipeInProgress() {
       <p data-testid="instructions">
         { recipe.strInstructions }
       </p>
-      <button
-        data-testid="finish-recipe-btn"
-        type="button"
-        disabled={ !steps.every(({ done }) => (done)) }
-        style={ {
-          position: 'fixed',
-          bottom: 0,
-        } }
-      >
-        Finalizar Receita
-      </button>
+      <Link to="/done-recipes">
+        <button
+          data-testid="finish-recipe-btn"
+          type="button"
+          disabled={ !steps.every(({ done }) => (done)) }
+          style={ {
+            position: 'fixed',
+            bottom: 0,
+          } }
+        >
+          Finalizar Receita
+        </button>
+      </Link>
     </div>
   );
 }
