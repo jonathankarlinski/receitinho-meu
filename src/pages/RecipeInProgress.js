@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import clipboardCopy from 'clipboard-copy';
 import { useLocation, useParams } from 'react-router-dom';
 import { fetchById } from '../services/searchAPI';
+import FavoriteButton from '../components/FavoriteButton';
 
 export default function RecipeInProgress() {
   const [steps, setSteps] = useState([]);
@@ -71,6 +73,16 @@ export default function RecipeInProgress() {
     );
   };
 
+  const handleCopy = (e) => {
+    e.target.innerText = 'Link copied!';
+
+    clipboardCopy(window.location.href.split('/in-progress')[0]);
+
+    setTimeout(() => {
+      e.target.innerText = 'Share';
+    }, Number('750'));
+  };
+
   return (
     <div>
       <img
@@ -81,12 +93,14 @@ export default function RecipeInProgress() {
       <h1 data-testid="recipe-title">
         { recipe[`str${type.name}`] }
       </h1>
-      <button data-testid="share-btn" type="button">
-        Compartilhe
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ handleCopy }
+      >
+        Share
       </button>
-      <button data-testid="favorite-btn" type="button">
-        Favoritar
-      </button>
+      <FavoriteButton recipe={ recipe } />
       <p data-testid="recipe-category">
         { recipe.strCategory }
         &nbsp;
