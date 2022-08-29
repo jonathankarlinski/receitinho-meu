@@ -3,10 +3,10 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchById } from '../services/searchAPI';
 
 export default function RecipeInProgress() {
+  const [steps, setSteps] = useState([]);
   const [recipe, setRecipe] = useState({
     ingredients: [],
   });
-  const [steps, setSteps] = useState([]);
 
   const { id } = useParams();
   const location = useLocation();
@@ -21,10 +21,18 @@ export default function RecipeInProgress() {
     const fetchAPI = async () => {
       const item = await fetchById(id, type.path);
 
-      setSteps(item.ingredients.map(({ name, qty }) => ({
+      const recipes = JSON.parse(
+        localStorage.getItem('inProgressRecipes') || '{}',
+      );
+
+      setSteps(item.ingredients.map(({ name, qty }, index) => ({
         name,
         qty,
-        done: false,
+        done: recipes[`${type.path}s`] && recipes[`${type.path}s`][id]
+          ? recipes[`${type.path}s`][id].some((i) => (
+            index === i
+          ))
+          : false,
       })));
 
       setRecipe(item);
@@ -34,10 +42,33 @@ export default function RecipeInProgress() {
   }, [id]);
 
   const handleClick = (event, index) => {
-    setSteps(steps.map((step, i) => ({
+    const seiLa = steps.map((step, i) => ({
       ...step,
       done: index === i ? event.target.checked : step.done,
-    })));
+    }));
+
+    setSteps(seiLa);
+
+    const recipes = JSON.parse(
+      localStorage.getItem('inProgressRecipes') || '{}',
+    );
+
+    localStorage.setItem(
+      'inProgressRecipes',
+      JSON.stringify({
+        ...recipes,
+        [`${type.path}s`]: {
+          ...(
+            recipes[`${type.path}s`]
+              ? recipes[`${type.path}s`]
+              : {}
+          ),
+          [id]: seiLa.reduce((acc, curr, i) => (
+            curr.done ? [...acc, i] : acc
+          ), []),
+        },
+      }),
+    );
   };
 
   return (
