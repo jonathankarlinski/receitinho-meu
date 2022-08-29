@@ -141,7 +141,15 @@ export default function RecipeInProgress() {
       <p data-testid="instructions">
         { recipe.strInstructions }
       </p>
-      <button data-testid="finish-recipe-btn" type="button">
+      <button
+        data-testid="finish-recipe-btn"
+        type="button"
+        disabled={ !steps.every(({ done }) => (done)) }
+        style={ {
+          position: 'fixed',
+          bottom: 0,
+        } }
+      >
         Finalizar Receita
       </button>
     </div>
