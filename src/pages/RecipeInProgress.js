@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchById } from '../services/searchAPI';
 
 export default function RecipeInProgress() {
+  const [steps, setSteps] = useState([]);
   const [recipe, setRecipe] = useState({
     ingredients: [],
   });
@@ -20,13 +21,55 @@ export default function RecipeInProgress() {
     const fetchAPI = async () => {
       const item = await fetchById(id, type.path);
 
-      console.log(item);
+      const recipes = JSON.parse(
+        localStorage.getItem('inProgressRecipes') || '{}',
+      );
+
+      setSteps(item.ingredients.map(({ name, qty }, index) => ({
+        name,
+        qty,
+        done: recipes[`${type.path}s`] && recipes[`${type.path}s`][id]
+          ? recipes[`${type.path}s`][id].some((i) => (
+            index === i
+          ))
+          : false,
+      })));
 
       setRecipe(item);
     };
 
     fetchAPI();
   }, [id]);
+
+  const handleClick = (event, index) => {
+    const seiLa = steps.map((step, i) => ({
+      ...step,
+      done: index === i ? event.target.checked : step.done,
+    }));
+
+    setSteps(seiLa);
+
+    const recipes = JSON.parse(
+      localStorage.getItem('inProgressRecipes') || '{}',
+    );
+
+    localStorage.setItem(
+      'inProgressRecipes',
+      JSON.stringify({
+        ...recipes,
+        [`${type.path}s`]: {
+          ...(
+            recipes[`${type.path}s`]
+              ? recipes[`${type.path}s`]
+              : {}
+          ),
+          [id]: seiLa.reduce((acc, curr, i) => (
+            curr.done ? [...acc, i] : acc
+          ), []),
+        },
+      }),
+    );
+  };
 
   return (
     <div>
@@ -49,20 +92,34 @@ export default function RecipeInProgress() {
         &nbsp;
         { recipe.strAlcoholic }
       </p>
-      { recipe.ingredients.map((ingredient, index) => (
-        <div key={ index }>
+      { steps.map((step, index) => (
+        <div
+          key={ index }
+        >
           <label
             htmlFor={ `checkbox-${index}` }
             data-testid={ `${index}-ingredient-step` }
+            style={ {
+              display: 'flex',
+              gap: '0.75rem',
+              flexDirection: 'row-reverse',
+              justifyContent: 'start',
+            } }
           >
-            <p>
-              <strong>{ingredient.name}</strong>
+            <p
+              style={ {
+                textDecoration: step.done ? 'line-through' : 'none',
+              } }
+            >
+              <strong>{step.name}</strong>
               &nbsp;
-              <span>{ingredient.qty}</span>
+              <span>{step.qty}</span>
             </p>
             <input
               type="checkbox"
               id={ `checkbox-${index}` }
+              checked={ step.done }
+              onChange={ (e) => handleClick(e, index) }
             />
           </label>
         </div>
