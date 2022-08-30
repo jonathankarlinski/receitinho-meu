@@ -2,14 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
 import { fetchById, fetchByName } from '../services/searchAPI';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import FavoriteButton from '../components/FavoriteButton';
 
 const MAX_CARDS = 6;
 
 export default function RecipeDetails() {
   const [itemRecommended, setItemRecommended] = useState([]);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [recipe, setRecipe] = useState({
     ingredients: [],
   });
@@ -46,12 +44,6 @@ export default function RecipeDetails() {
   ), [location.pathname]);
 
   useEffect(() => {
-    setIsFavorite(
-      JSON.parse(localStorage.getItem('favoriteRecipes') || '[]').some((item) => (
-        item.id === id
-      )),
-    );
-
     const fetchAPI = async () => {
       const item = await fetchById(id, type.path);
       const recommended = await fetchByName('', type.recommendation.path);
@@ -71,39 +63,6 @@ export default function RecipeDetails() {
     setTimeout(() => {
       e.target.innerText = 'Share';
     }, Number('750'));
-  };
-
-  const handleFavorite = () => {
-    const favoriteItems = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-
-    const curr = {
-      id: recipe[`id${type.name}`],
-      type: location.pathname.includes('foods') ? 'food' : 'drink',
-      nationality: recipe.strArea || '',
-      category: recipe.strCategory,
-      alcoholicOrNot: recipe.strAlcoholic || '',
-      name: recipe[`str${type.name}`],
-      image: recipe[`str${type.name}Thumb`],
-    };
-
-    if (isFavorite) {
-      localStorage.setItem('favoriteRecipes', JSON.stringify([
-        favoriteItems.filter((item) => (
-          item.id !== id
-        )),
-      ]));
-
-      setIsFavorite(false);
-
-      return;
-    }
-
-    localStorage.setItem('favoriteRecipes', JSON.stringify([
-      ...favoriteItems,
-      curr,
-    ]));
-
-    setIsFavorite(true);
   };
 
   return (
@@ -128,16 +87,7 @@ export default function RecipeDetails() {
       >
         Share
       </button>
-      <button
-        type="button"
-        onClick={ () => handleFavorite() }
-      >
-        <img
-          data-testid="favorite-btn"
-          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-          alt=" favorite"
-        />
-      </button>
+      <FavoriteButton recipe={ recipe } />
       <h3>Ingredients</h3>
       { recipe.ingredients.map((ingredient, index) => (
         <div key={ index }>

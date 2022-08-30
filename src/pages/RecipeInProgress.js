@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import clipboardCopy from 'clipboard-copy';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { fetchById } from '../services/searchAPI';
+import FavoriteButton from '../components/FavoriteButton';
 
 export default function RecipeInProgress() {
   const [steps, setSteps] = useState([]);
@@ -71,6 +73,16 @@ export default function RecipeInProgress() {
     );
   };
 
+  const handleCopy = (e) => {
+    e.target.innerText = 'Link copied!';
+
+    clipboardCopy(window.location.href.split('/in-progress')[0]);
+
+    setTimeout(() => {
+      e.target.innerText = 'Share';
+    }, Number('750'));
+  };
+
   return (
     <div>
       <img
@@ -81,12 +93,14 @@ export default function RecipeInProgress() {
       <h1 data-testid="recipe-title">
         { recipe[`str${type.name}`] }
       </h1>
-      <button data-testid="share-btn" type="button">
-        Compartilhe
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ handleCopy }
+      >
+        Share
       </button>
-      <button data-testid="favorite-btn" type="button">
-        Favoritar
-      </button>
+      <FavoriteButton recipe={ recipe } />
       <p data-testid="recipe-category">
         { recipe.strCategory }
         &nbsp;
@@ -127,9 +141,19 @@ export default function RecipeInProgress() {
       <p data-testid="instructions">
         { recipe.strInstructions }
       </p>
-      <button data-testid="finish-recipe-btn" type="button">
-        Finalizar Receita
-      </button>
+      <Link to="/done-recipes">
+        <button
+          data-testid="finish-recipe-btn"
+          type="button"
+          disabled={ !steps.every(({ done }) => (done)) }
+          style={ {
+            position: 'fixed',
+            bottom: 0,
+          } }
+        >
+          Finalizar Receita
+        </button>
+      </Link>
     </div>
   );
 }
