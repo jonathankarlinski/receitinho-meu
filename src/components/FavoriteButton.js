@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 export default function FavoriteButton({ recipe }) {
   const [isFavorite, setIsFavorite] = useState(false);
