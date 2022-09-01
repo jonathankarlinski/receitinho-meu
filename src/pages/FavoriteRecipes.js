@@ -1,11 +1,13 @@
 import clipboardCopy from 'clipboard-copy';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 export default function FavoriteRecipes() {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [filterByType, setFilterByType] = useState('');
 
   useEffect(() => {
     setFavoriteRecipes(
@@ -47,21 +49,54 @@ export default function FavoriteRecipes() {
         title="Favorite Recipes"
         search={ false }
       />
-      <p data-testid="filter-by-all-btn" />
-      <p data-testid="filter-by-food-btn" />
-      <p data-testid="filter-by-drink-btn" />
-      { favoriteRecipes.map((recipe, index) => (
-        <>
-          <img data-testid={ `${index}-horizontal-image` } src={ recipe.image } alt="" />
+      <button
+        type="button"
+        data-testid="filter-by-all-btn"
+        onClick={ () => setFilterByType('') }
+      >
+        All
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-food-btn"
+        onClick={ () => setFilterByType('food') }
+      >
+        Food
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-drink-btn"
+        onClick={ () => setFilterByType('drink') }
+      >
+        Drink
+      </button>
+      { favoriteRecipes.filter(({ type }) => (
+        type.includes(filterByType)
+      )).map((recipe, index) => (
+        <div
+          key={ recipe.id }
+        >
+          <Link
+            to={ `/${recipe.type}s/${recipe.id}` }
+          >
+            <img
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              style={ {
+                maxWidth: '100vw',
+              } }
+              alt=""
+            />
+            <p data-testid={ `${index}-horizontal-name` }>
+              {recipe.name}
+            </p>
+          </Link>
           <p data-testid={ `${index}-horizontal-top-text` }>
             {recipe.nationality || recipe.alcoholicOrNot}
             &nbsp;
             -
             &nbsp;
             {recipe.category}
-          </p>
-          <p data-testid={ `${index}-horizontal-name` }>
-            {recipe.name}
           </p>
           <button
             type="button"
@@ -83,7 +118,7 @@ export default function FavoriteRecipes() {
               alt=" favorite"
             />
           </button>
-        </>
+        </div>
       )) }
 
     </div>
