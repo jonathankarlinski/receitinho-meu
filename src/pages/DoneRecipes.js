@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import clipboardCopy from 'clipboard-copy';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+// import clipboardCopy from 'clipboard-copy';
+// import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
+import shareIcon from '../images/shareIcon.svg';
 
 export default function DoneRecipes() {
   const [doneArray, setDoneArray] = useState();
@@ -13,19 +14,19 @@ export default function DoneRecipes() {
     getDoneRecipes();
   }, []);
 
-  const location = useLocation();
+  // const location = useLocation();
 
-  const type = useMemo(() => ({
-    route: location.pathname.includes('foods') ? '/foods' : '/drinks',
-  }), [location.pathname]);
+  // const type = useMemo(() => ({
+  //   route: location.pathname.includes('foods') ? '/foods' : '/drinks',
+  // }), [location.pathname]);
 
-  const handleCopy = (e, id) => {
-    e.target.innerText = 'Link copied!';
-    clipboardCopy([`http://localhost:3000${type.route}/${id}`]);
-    setTimeout(() => {
-      e.target.innerText = 'Share';
-    }, Number('750'));
-  };
+  // const handleCopy = (e, id) => {
+  //   e.target.innerText = 'Link copied!';
+  //   clipboardCopy([`http://localhost:3000${type.route}/${id}`]);
+  //   setTimeout(() => {
+  //     e.target.innerText = 'Share';
+  //   }, Number('750'));
+  // };
 
   return (
     <div>
@@ -46,22 +47,23 @@ export default function DoneRecipes() {
             alt={ recipe.name }
           />
           <p data-testid={ `${index}-horizontal-top-text` }>
+            { recipe.nationality }
+            { ' - ' }
             {recipe.category}
           </p>
           <p data-testid={ `${index}-horizontal-name` }>
             { recipe.name }
           </p>
           <p data-testid={ `${index}-horizontal-done-date` }>
-            { recipe.doneData }
+            { recipe.doneDate }
           </p>
-          <button
-            type="button"
+          <img
+            src={ shareIcon }
+            alt="ShareIcon"
             data-testid={ `${index}-horizontal-share-btn` }
-            onClick={ (e) => handleCopy(e, recipe.id) }
-          >
-            Share
-          </button>
-          { recipe.tags.map((item) => (
+            // onClick={ (e) => handleCopy(e, recipe.id) }
+          />
+          { recipe.tags.slice(0, 2).map((item) => (
             <p
               data-testid={ `${index}-${item}-horizontal-tag` }
               key={ item }

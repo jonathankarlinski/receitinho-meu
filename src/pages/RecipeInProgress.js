@@ -87,6 +87,7 @@ export default function RecipeInProgress() {
     const date = new Date().toLocaleDateString().split('/');
     const removeDay = date.splice(1, 1)[0];
     const newArr = [removeDay].concat(date).join('/');
+    console.log(recipe);
     const tagsArr = recipe.strTags.split(',');
     const recipeDone = [{
       id: recipe.idMeal || recipe.idDrink,
@@ -94,8 +95,9 @@ export default function RecipeInProgress() {
       category: recipe.strCategory || '',
       alcoholicOrNot: recipe.strAlcoholic || '',
       name: recipe.strMeal || strDrink,
-      doneData: newArr,
+      doneDate: newArr,
       tags: tagsArr || [],
+      nationality: recipe.strArea || '',
     }];
     localStorage.setItem('doneRecipes', JSON.stringify(recipeDone));
   };
