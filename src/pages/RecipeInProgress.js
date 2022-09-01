@@ -98,6 +98,7 @@ export default function RecipeInProgress() {
       doneDate: newArr,
       tags: tagsArr || [],
       nationality: recipe.strArea || '',
+      type: type.route === '/foods' ? 'food' : 'drink',
     }];
     localStorage.setItem('doneRecipes', JSON.stringify(recipeDone));
   };

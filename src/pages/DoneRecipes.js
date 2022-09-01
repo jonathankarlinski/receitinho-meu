@@ -47,7 +47,7 @@ export default function DoneRecipes() {
             alt={ recipe.name }
           />
           <p data-testid={ `${index}-horizontal-top-text` }>
-            { recipe.nationality }
+            { recipe.type === 'food' ? recipe.nationality : recipe.alcoholicOrNot }
             { ' - ' }
             {recipe.category}
           </p>
