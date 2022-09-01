@@ -100,6 +100,7 @@ export default function RecipeInProgress() {
       nationality: recipe.strArea || '',
       type: type.route === '/foods' ? 'food' : 'drink',
     }];
+    console.log(type.route);
     localStorage.setItem('doneRecipes', JSON.stringify(recipeDone));
   };
 

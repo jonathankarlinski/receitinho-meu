@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import clipboardCopy from 'clipboard-copy';
-// import { useLocation } from 'react-router-dom';
+import clipboardCopy from 'clipboard-copy';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 
@@ -14,19 +13,14 @@ export default function DoneRecipes() {
     getDoneRecipes();
   }, []);
 
-  // const location = useLocation();
-
-  // const type = useMemo(() => ({
-  //   route: location.pathname.includes('foods') ? '/foods' : '/drinks',
-  // }), [location.pathname]);
-
-  // const handleCopy = (e, id) => {
-  //   e.target.innerText = 'Link copied!';
-  //   clipboardCopy([`http://localhost:3000${type.route}/${id}`]);
-  //   setTimeout(() => {
-  //     e.target.innerText = 'Share';
-  //   }, Number('750'));
-  // };
+  const handleCopy = (e, id, type) => {
+    const typeRecipes = type === 'food' ? 'foods' : 'drinks';
+    e.target.innerText = 'Link copied!';
+    clipboardCopy(`http://localhost:3000/${typeRecipes}/${id}`);
+    setTimeout(() => {
+      e.target.innerText = 'Share';
+    }, Number('750'));
+  };
 
   return (
     <div>
@@ -57,12 +51,16 @@ export default function DoneRecipes() {
           <p data-testid={ `${index}-horizontal-done-date` }>
             { recipe.doneDate }
           </p>
-          <img
-            src={ shareIcon }
-            alt="ShareIcon"
-            data-testid={ `${index}-horizontal-share-btn` }
-            // onClick={ (e) => handleCopy(e, recipe.id) }
-          />
+          <button
+            type="button"
+            onClick={ (e) => handleCopy(e, recipe.id, recipe.type) }
+          >
+            <img
+              src={ shareIcon }
+              alt="ShareIcon"
+              data-testid={ `${index}-horizontal-share-btn` }
+            />
+          </button>
           { recipe.tags.slice(0, 2).map((item) => (
             <p
               data-testid={ `${index}-${item}-horizontal-tag` }
