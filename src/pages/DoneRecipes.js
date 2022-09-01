@@ -8,6 +8,7 @@ export default function DoneRecipes() {
   const getDoneRecipes = () => {
     setDoneArray(JSON.parse(localStorage.getItem('doneRecipes')));
   };
+  const [doneRecipes, setDoneRecipes] = useState('');
 
   useEffect(() => {
     getDoneRecipes();
@@ -28,49 +29,70 @@ export default function DoneRecipes() {
         search={ false }
         title="Done Recipes"
       />
-      <button data-testid="filter-by-all-btn" type="button">All</button>
-      <button data-testid="filter-by-food-btn" type="button">Food</button>
-      <button data-testid="filter-by-drink-btn" type="button">Drinks</button>
+      <button
+        data-testid="filter-by-all-btn"
+        type="button"
+        onClick={ () => setDoneRecipes('') }
+      >
+        All
+      </button>
+
+      <button
+        data-testid="filter-by-food-btn"
+        type="button"
+        onClick={ () => setDoneRecipes('food') }
+      >
+        Food
+      </button>
+
+      <button
+        data-testid="filter-by-drink-btn"
+        type="button"
+        onClick={ () => setDoneRecipes('drink') }
+      >
+        Drinks
+      </button>
 
       {doneArray
-      && doneArray.map((recipe, index) => (
-        <div key={ recipe.id }>
-          <img
-            src={ recipe.image }
-            data-testid={ `${index}-horizontal-image` }
-            alt={ recipe.name }
-          />
-          <p data-testid={ `${index}-horizontal-top-text` }>
-            { recipe.type === 'food' ? recipe.nationality : recipe.alcoholicOrNot }
-            { ' - ' }
-            {recipe.category}
-          </p>
-          <p data-testid={ `${index}-horizontal-name` }>
-            { recipe.name }
-          </p>
-          <p data-testid={ `${index}-horizontal-done-date` }>
-            { recipe.doneDate }
-          </p>
-          <button
-            type="button"
-            onClick={ (e) => handleCopy(e, recipe.id, recipe.type) }
-          >
+      && doneArray.filter(({ type }) => type.includes(doneRecipes))
+        .map((recipe, index) => (
+          <div key={ recipe.id }>
             <img
-              src={ shareIcon }
-              alt="ShareIcon"
-              data-testid={ `${index}-horizontal-share-btn` }
+              src={ recipe.image }
+              data-testid={ `${index}-horizontal-image` }
+              alt={ recipe.name }
             />
-          </button>
-          { recipe.tags.slice(0, 2).map((item) => (
-            <p
-              data-testid={ `${index}-${item}-horizontal-tag` }
-              key={ item }
-            >
-              {item}
+            <p data-testid={ `${index}-horizontal-top-text` }>
+              { recipe.type === 'food' ? recipe.nationality : recipe.alcoholicOrNot }
+              { ' - ' }
+              {recipe.category}
             </p>
-          )) }
-        </div>
-      ))}
+            <p data-testid={ `${index}-horizontal-name` }>
+              { recipe.name }
+            </p>
+            <p data-testid={ `${index}-horizontal-done-date` }>
+              { recipe.doneDate }
+            </p>
+            <button
+              type="button"
+              onClick={ (e) => handleCopy(e, recipe.id, recipe.type) }
+            >
+              <img
+                src={ shareIcon }
+                alt="ShareIcon"
+                data-testid={ `${index}-horizontal-share-btn` }
+              />
+            </button>
+            { recipe.tags.slice(0, 2).map((item) => (
+              <p
+                data-testid={ `${index}-${item}-horizontal-tag` }
+                key={ item }
+              >
+                {item}
+              </p>
+            )) }
+          </div>
+        ))}
     </div>
   );
 }
