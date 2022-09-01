@@ -8,6 +8,7 @@ import shareIcon from '../images/shareIcon.svg';
 export default function FavoriteRecipes() {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [filterByType, setFilterByType] = useState('');
+  const [copyMessage, setCopyMessage] = useState('Share');
 
   useEffect(() => {
     setFavoriteRecipes(
@@ -15,12 +16,8 @@ export default function FavoriteRecipes() {
     );
   }, []);
 
-  useEffect(() => {
-    console.log(favoriteRecipes);
-  }, [favoriteRecipes]);
-
   const removeFavorite = (id) => {
-    const favoriteItems = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+    const favoriteItems = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
     localStorage.setItem('favoriteRecipes', JSON.stringify(
       favoriteItems.filter((item) => (
@@ -29,17 +26,17 @@ export default function FavoriteRecipes() {
     ));
 
     setFavoriteRecipes(
-      JSON.parse(localStorage.getItem('favoriteRecipes') || '[]'),
+      JSON.parse(localStorage.getItem('favoriteRecipes')),
     );
   };
 
   const handleCopy = (e, recipe) => {
-    e.target.innerText = 'Link copied!';
+    setCopyMessage('Link copied!');
 
     clipboardCopy(`${window.location.origin}/${recipe.type}s/${recipe.id}`);
 
     setTimeout(() => {
-      e.target.innerText = 'Share';
+      setCopyMessage('Share');
     }, Number('750'));
   };
 
@@ -70,7 +67,7 @@ export default function FavoriteRecipes() {
       >
         Drink
       </button>
-      { favoriteRecipes.filter(({ type }) => (
+      { favoriteRecipes && favoriteRecipes.filter(({ type }) => (
         type.includes(filterByType)
       )).map((recipe, index) => (
         <div
@@ -107,6 +104,7 @@ export default function FavoriteRecipes() {
               src={ shareIcon }
               alt=""
             />
+            {copyMessage}
           </button>
           <button
             type="button"
@@ -115,7 +113,7 @@ export default function FavoriteRecipes() {
             <img
               data-testid={ `${index}-horizontal-favorite-btn` }
               src={ blackHeartIcon }
-              alt=" favorite"
+              alt="favorite"
             />
           </button>
         </div>
