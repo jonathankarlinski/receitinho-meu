@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import clipboardCopy from 'clipboard-copy';
-import { useLocation, useParams, Link } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { fetchById } from '../services/searchAPI';
 import FavoriteButton from '../components/FavoriteButton';
 
@@ -9,9 +9,11 @@ export default function RecipeInProgress() {
   const [recipe, setRecipe] = useState({
     ingredients: [],
   });
+  console.log(steps);
 
   const { id } = useParams();
   const location = useLocation();
+  const history = useHistory();
 
   const type = useMemo(() => ({
     route: location.pathname.includes('foods') ? '/foods' : '/drinks',
@@ -36,7 +38,6 @@ export default function RecipeInProgress() {
           ))
           : false,
       })));
-
       setRecipe(item);
     };
 
@@ -81,6 +82,27 @@ export default function RecipeInProgress() {
     setTimeout(() => {
       e.target.innerText = 'Share';
     }, Number('750'));
+  };
+
+  const handleDoneRecipes = () => {
+    const date = new Date().toLocaleDateString().split('/');
+    const removeDay = date.splice(1, 1)[0];
+    const newArr = [removeDay].concat(date).join('/');
+    console.log(recipe.strTags);
+    const tagsArr = recipe.strTags === null ? [] : recipe.strTags.split(',');
+    const recipeDone = [{
+      id: recipe.idMeal || recipe.idDrink,
+      image: recipe.strMealThumb || recipe.strDrinkThumb,
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic || '',
+      name: recipe.strMeal || recipe.strDrink,
+      doneDate: newArr,
+      tags: tagsArr,
+      nationality: recipe.strArea,
+      type: type.route === '/foods' ? 'food' : 'drink',
+    }];
+    localStorage.setItem('doneRecipes', JSON.stringify(recipeDone));
+    history.push('/done-recipes');
   };
 
   return (
@@ -141,19 +163,18 @@ export default function RecipeInProgress() {
       <p data-testid="instructions">
         { recipe.strInstructions }
       </p>
-      <Link to="/done-recipes">
-        <button
-          data-testid="finish-recipe-btn"
-          type="button"
-          disabled={ !steps.every(({ done }) => (done)) }
-          style={ {
-            position: 'fixed',
-            bottom: 0,
-          } }
-        >
-          Finalizar Receita
-        </button>
-      </Link>
+      <button
+        data-testid="finish-recipe-btn"
+        type="button"
+        onClick={ handleDoneRecipes }
+        disabled={ !steps.every(({ done }) => (done)) }
+        style={ {
+          position: 'fixed',
+          bottom: 0,
+        } }
+      >
+        Finalizar Receita
+      </button>
     </div>
   );
 }
