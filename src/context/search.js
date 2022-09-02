@@ -1,13 +1,10 @@
+import PropTypes from 'prop-types';
 import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import {
-  fetchCategories,
-  fetchByName,
-  fetchByFirstLetter,
-  fetchByIngredient,
-  fetchByCategory,
+  fetchByCategory, fetchByFirstLetter,
+  fetchByIngredient, fetchByName, fetchCategories,
 } from '../services/searchAPI';
 
 const SearchContext = createContext({
@@ -48,16 +45,28 @@ export const SearchProvider = ({ children }) => {
     const fetchAPI = async () => {
       let searchResults = [];
 
-      if (filter === 'ingredient') {
-        searchResults = await fetchByIngredient(query, type);
-      } else if (filter === 'name') {
-        searchResults = await fetchByName(query, type);
-      } else if (filter === 'first-letter') {
-        searchResults = await fetchByFirstLetter(query, type);
-      } else if (filter === 'category') {
-        searchResults = await fetchByCategory(query, type);
+      const filters = {
+        ingredient: async () => {
+          searchResults = await fetchByIngredient(query, type);
+        },
+        name: async () => {
+          searchResults = await fetchByName(query, type);
+        },
+        'first-letter': async () => {
+          searchResults = await fetchByFirstLetter(query, type);
+        },
+        category: async () => {
+          searchResults = await fetchByCategory(query, type);
+        },
+        default: async () => {
+          searchResults = await fetchByName(query, type);
+        },
+      };
+
+      if (filters[filter]) {
+        await filters[filter]();
       } else {
-        searchResults = await fetchByName(query, type);
+        await filters.default();
       }
 
       setItems(searchResults);
