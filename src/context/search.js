@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
+
 import {
   fetchCategories,
   fetchByName,
