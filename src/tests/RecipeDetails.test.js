@@ -62,6 +62,9 @@ describe('Testa do componente RecipeDetails', () => {
         meals: {
           "52977": ""
         },
+        drinks: {
+          "17203": ""
+        }
       }
     ))
 
@@ -76,4 +79,73 @@ describe('Testa do componente RecipeDetails', () => {
 
     expect(startRec).toHaveTextContent('Continue Recipe');
   });
+
+  test('', async () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify([
+      {
+        id: '52977',
+        type: '',
+        nationality: '',
+        category: '',
+        alcoholicOrNot: '',
+        name: '',
+        image: '',
+      }
+    ]))
+
+    const { history } = renderWithRouter(
+      <SearchProvider>
+        <App />
+      </SearchProvider>
+    );
+
+    history.push("/foods/52977");
+    expect(history.location.pathname).toBe("/foods/52977");
+
+    const favoriteIcon = screen.getByTestId("favorite-btn")
+
+    await waitFor(() => {
+      expect(favoriteIcon).toHaveAttribute('src', 'blackHeartIcon.svg')
+    })
+  })
+
+  // test('', async () => {
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify([
+  //     {
+  //       id: '17203',
+  //       type: '',
+  //       nationality: '',
+  //       category: '',
+  //       alcoholicOrNot: '',
+  //       name: '',
+  //       image: '',
+  //     }
+  //   ]))
+    
+  //   localStorage.setItem('inProgressRecipes', JSON.stringify(
+  //     {
+  //       meals: {
+  //         "52977": ""
+  //       },
+  //       drinks: {
+  //         "17203": ""
+  //       }
+  //     }
+  //   ))
+
+  //   const { history } = renderWithRouter(
+  //     <SearchProvider>
+  //       <App />
+  //     </SearchProvider>
+  //   );
+
+  //   history.push("/drinks/17203");
+  //   expect(history.location.pathname).toBe("/drinks/17203");
+
+  //   const favoriteIcon = screen.getByTestId("favorite-btn")
+
+  //   await waitFor(() => {
+  //     expect(favoriteIcon).toHaveAttribute('src', 'blackHeartIcon.svg')
+  //   })
+  // })
 });

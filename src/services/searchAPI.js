@@ -5,95 +5,60 @@ const NUM_CHAR = 13;
 export const fetchCategories = async (type) => {
   const url = `https://www.the${type}db.com/api/json/v1/1/list.php?c=list`;
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const results = data[type === 'meal' ? 'meals' : 'drinks'];
+  const res = await fetch(url);
+  const data = await res.json();
+  const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    return results.slice(0, MAX_CATEGORIES);
-  } catch (err) {
-    console.log(err);
-  }
+  return results.slice(0, MAX_CATEGORIES);
 };
 
 export const fetchByCategory = async (category, type) => {
   const url = `https://www.the${type}db.com/api/json/v1/1/filter.php?c=${category}`;
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const results = data[type === 'meal' ? 'meals' : 'drinks'];
+  const res = await fetch(url);
+  const data = await res.json();
+  const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    if (!results || results.length === 0) {
-      global.alert(NO_RESULTS_ERROR);
-      return [];
-    }
-
-    return results;
-  } catch (err) {
-    console.log(err);
-  }
+  return results;
 };
 
 export const fetchByName = async (name, type) => {
   const url = `https://www.the${type}db.com/api/json/v1/1/search.php?s=${name}`;
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const results = data[type === 'meal' ? 'meals' : 'drinks'];
+  const res = await fetch(url);
+  const data = await res.json();
+  const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    if (!results || results.length === 0) {
-      global.alert(NO_RESULTS_ERROR);
-      return [];
-    }
-
-    return results;
-  } catch (err) {
-    console.log(err);
+  if (!results || results.length === 0) {
+    global.alert(NO_RESULTS_ERROR);
+    return [];
   }
+
+  return results;
 };
 
 export const fetchByIngredient = async (ingredient, type) => {
   const url = `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${ingredient}`;
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const results = data[type === 'meal' ? 'meals' : 'drinks'];
+  const res = await fetch(url);
+  const data = await res.json();
+  const results = data[type === 'meal' ? 'meals' : 'drinks'];
 
-    if (!results || results.length === 0) {
-      global.alert(NO_RESULTS_ERROR);
-      return [];
-    }
-
-    return results;
-  } catch (err) {
-    console.log(err);
-  }
+  return results;
 };
 
 export const fetchByFirstLetter = async (firstLetter, type) => {
   const url = `https://www.the${type}db.com/api/json/v1/1/search.php?f=${firstLetter}`;
 
-  try {
-    if (firstLetter.length > 1) {
-      global.alert('Your search must have only 1 (one) character');
-    }
-
-    const res = await fetch(url);
-    const data = await res.json();
-    const results = data[type === 'meal' ? 'meals' : 'drinks'];
-
-    if (!results || results.length === 0) {
-      global.alert(NO_RESULTS_ERROR);
-      return [];
-    }
-
-    return results;
-  } catch (err) {
-    console.log(err);
+  if (firstLetter.length > 1) {
+    return global.alert('Your search must have only 1 (one) character');
   }
+
+  const res = await fetch(url);
+  const data = await res.json();
+  const results = data[type === 'meal' ? 'meals' : 'drinks'];
+
+  return results;
 };
 
 export const fetchById = async (id, type) => {
@@ -103,11 +68,6 @@ export const fetchById = async (id, type) => {
     const res = await fetch(url);
     const data = await res.json();
     const results = data[type === 'meal' ? 'meals' : 'drinks'];
-
-    if (!results || results.length === 0) {
-      global.alert(NO_RESULTS_ERROR);
-      return {};
-    }
 
     return {
       ...results[0],
