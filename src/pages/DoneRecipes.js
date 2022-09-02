@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import clipboardCopy from 'clipboard-copy';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 
@@ -18,9 +19,6 @@ export default function DoneRecipes() {
     const typeRecipes = type === 'food' ? 'foods' : 'drinks';
     e.target.innerText = 'Link copied!';
     clipboardCopy(`http://localhost:3000/${typeRecipes}/${id}`);
-    setTimeout(() => {
-      e.target.innerText = 'Share';
-    }, Number('750'));
   };
 
   return (
@@ -57,19 +55,32 @@ export default function DoneRecipes() {
       && doneArray.filter(({ type }) => type.includes(doneRecipes))
         .map((recipe, index) => (
           <div key={ recipe.id }>
-            <img
-              src={ recipe.image }
-              data-testid={ `${index}-horizontal-image` }
-              alt={ recipe.name }
-            />
+            <Link
+              to={
+                recipe.type === 'food' ? `/foods/${recipe.id}` : `/drinks/${recipe.id}`
+              }
+            >
+              <img
+                src={ recipe.image }
+                data-testid={ `${index}-horizontal-image` }
+                alt={ recipe.name }
+                style={ { maxWidth: '100vw' } }
+              />
+            </Link>
             <p data-testid={ `${index}-horizontal-top-text` }>
               { recipe.type === 'food' ? recipe.nationality : recipe.alcoholicOrNot }
               { ' - ' }
               {recipe.category}
             </p>
-            <p data-testid={ `${index}-horizontal-name` }>
-              { recipe.name }
-            </p>
+            <Link
+              to={
+                recipe.type === 'food' ? `/foods/${recipe.id}` : `/drinks/${recipe.id}`
+              }
+            >
+              <p data-testid={ `${index}-horizontal-name` }>
+                { recipe.name }
+              </p>
+            </Link>
             <p data-testid={ `${index}-horizontal-done-date` }>
               { recipe.doneDate }
             </p>
