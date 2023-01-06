@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/receitinho-meu/static/css/main.6c34f3c7.css",
-    "main.js": "/receitinho-meu/static/js/main.61a46245.js",
+    "main.js": "/receitinho-meu/static/js/main.a6360bae.js",
     "static/media/mealIcon.svg": "/receitinho-meu/static/media/mealIcon.40029e7f1422ba5a1bf1c10fa4f59030.svg",
     "static/media/logo.png": "/receitinho-meu/static/media/logo.1edd5e62779bc86e2473.png",
     "static/media/shareIcon.svg": "/receitinho-meu/static/media/shareIcon.87def1bd1dff9af9263f046c3b9bd31a.svg",
@@ -10,10 +10,10 @@
     "static/media/drinkIcon.svg": "/receitinho-meu/static/media/drinkIcon.efc0d3c156e5da73e44a826c8d67b142.svg",
     "index.html": "/receitinho-meu/index.html",
     "main.6c34f3c7.css.map": "/receitinho-meu/static/css/main.6c34f3c7.css.map",
-    "main.61a46245.js.map": "/receitinho-meu/static/js/main.61a46245.js.map"
+    "main.a6360bae.js.map": "/receitinho-meu/static/js/main.a6360bae.js.map"
   },
   "entrypoints": [
     "static/css/main.6c34f3c7.css",
-    "static/js/main.61a46245.js"
+    "static/js/main.a6360bae.js"
   ]
 }
