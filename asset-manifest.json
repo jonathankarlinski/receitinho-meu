@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/receitinho-meu/static/css/main.b58e2dd9.css",
-    "main.js": "/receitinho-meu/static/js/main.673c1ac4.js",
+    "main.css": "/receitinho-meu/static/css/main.d1fe437a.css",
+    "main.js": "/receitinho-meu/static/js/main.fe7f7b62.js",
     "static/media/mealIcon.svg": "/receitinho-meu/static/media/mealIcon.40029e7f1422ba5a1bf1c10fa4f59030.svg",
     "static/media/logo.png": "/receitinho-meu/static/media/logo.1edd5e62779bc86e2473.png",
     "static/media/shareIcon.svg": "/receitinho-meu/static/media/shareIcon.87def1bd1dff9af9263f046c3b9bd31a.svg",
@@ -9,11 +9,11 @@
     "static/media/blackHeartIcon.svg": "/receitinho-meu/static/media/blackHeartIcon.083cb006913d197c95857ebfa2161db7.svg",
     "static/media/drinkIcon.svg": "/receitinho-meu/static/media/drinkIcon.efc0d3c156e5da73e44a826c8d67b142.svg",
     "index.html": "/receitinho-meu/index.html",
-    "main.b58e2dd9.css.map": "/receitinho-meu/static/css/main.b58e2dd9.css.map",
-    "main.673c1ac4.js.map": "/receitinho-meu/static/js/main.673c1ac4.js.map"
+    "main.d1fe437a.css.map": "/receitinho-meu/static/css/main.d1fe437a.css.map",
+    "main.fe7f7b62.js.map": "/receitinho-meu/static/js/main.fe7f7b62.js.map"
   },
   "entrypoints": [
-    "static/css/main.b58e2dd9.css",
-    "static/js/main.673c1ac4.js"
+    "static/css/main.d1fe437a.css",
+    "static/js/main.fe7f7b62.js"
   ]
 }
