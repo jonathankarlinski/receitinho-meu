@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/receitinho-meu/static/css/main.050377a8.css",
-    "main.js": "/receitinho-meu/static/js/main.30923a50.js",
+    "main.js": "/receitinho-meu/static/js/main.0c8c0cdf.js",
     "static/media/bestKiss.gif": "/receitinho-meu/static/media/bestKiss.1d9b5ac49f23c5d5fbd8.gif",
     "static/media/stardewValley.png": "/receitinho-meu/static/media/stardewValley.cfbadb7ab3978fe1042a.png",
     "static/media/bestFriend.gif": "/receitinho-meu/static/media/bestFriend.916d8017c2af06161682.gif",
@@ -20,10 +20,10 @@
     "static/media/drinkIcon.svg": "/receitinho-meu/static/media/drinkIcon.efc0d3c156e5da73e44a826c8d67b142.svg",
     "index.html": "/receitinho-meu/index.html",
     "main.050377a8.css.map": "/receitinho-meu/static/css/main.050377a8.css.map",
-    "main.30923a50.js.map": "/receitinho-meu/static/js/main.30923a50.js.map"
+    "main.0c8c0cdf.js.map": "/receitinho-meu/static/js/main.0c8c0cdf.js.map"
   },
   "entrypoints": [
     "static/css/main.050377a8.css",
-    "static/js/main.30923a50.js"
+    "static/js/main.0c8c0cdf.js"
   ]
 }
